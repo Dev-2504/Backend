@@ -1,0 +1,40 @@
+<!-- edit.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Data</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:#f4f7fb;color:#222;padding:24px}
+    .container{max-width:720px;margin:0 auto}
+    .card{background:#fff;border-radius:12px;padding:22px;box-shadow:0 6px 18px rgba(22,38,84,0.06)}
+    h1{font-size:20px;margin-bottom:12px;color:#0b2545}
+    form{display:grid;grid-template-columns:1fr;gap:12px}
+    input[type="text"]{width:100%;padding:12px;border-radius:8px;border:1px solid #d6def2;background:#fbfdff}
+    .actions{display:flex;gap:10px;justify-content:flex-end}
+    button.btn{padding:10px 16px;border-radius:8px;border:0;background:#1766d1;color:#fff;font-weight:600;cursor:pointer}
+    a.back{align-self:center;text-decoration:none;color:#1766d1;font-weight:600}
+    @media (max-width:480px){.container{padding:8px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Edit Data — ID: <%= newData.id %></h1>
+
+      <form action="/updateData/<%= newData.id %>" method="post">
+        <input type="text" value="<%= newData.name %>" name="name" placeholder="Enter your name" required>
+        <input type="text" value="<%= newData.subject %>" name="subject" placeholder="Enter your subject" required>
+        <input type="text" value="<%= newData.city %>" name="city" placeholder="Enter your city" required>
+
+        <div class="actions">
+          <a class="back" href="/">Cancel</a>
+          <button type="submit" class="btn">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
