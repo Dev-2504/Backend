@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Edit Book — My Library</title>
+  <style>
+    :root{
+      --bg:#f6f8fb; --card:#ffffff; --muted:#6b7280; --accent:#2563eb; --accent-600:#1e40af; --danger:#ef4444; --max-width:700px; --glass:rgba(15,23,42,0.04);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, -apple-system,'Segoe UI',Roboto,Arial;background:var(--bg);color:#071233}
+
+    /* NAVBAR (same as index) */
+    .navbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:linear-gradient(90deg,#0f172a,#0b1340);color:#fff}
+    .brand{font-weight:700;font-size:18px;letter-spacing:0.3px}
+    .nav-actions{display:flex;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:600;text-decoration:none}
+    .btn-add{background:var(--accent);color:#fff;box-shadow:0 6px 18px rgba(37,99,235,0.12)}
+    .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.08)}
+
+    .wrap{max-width:var(--max-width);margin:28px auto;padding:0 18px}
+    .card{background:var(--card);padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(12,18,30,0.06)}
+    h1{margin:0 0 6px 0;font-size:20px}
+    p.lead{margin:0 0 16px 0;color:var(--muted)}
+
+    form{display:grid;gap:12px}
+    label{display:block;font-weight:700;color:#0f172a;margin-bottom:6px}
+    .field{display:flex;flex-direction:column}
+    input[type="text"]{padding:12px;border-radius:10px;border:1px solid #e6eef6;font-size:14px;outline:none}
+    input::placeholder{color:#94a3b8}
+
+    .actions{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
+    .btn-submit{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:none;font-weight:700;cursor:pointer}
+    .btn-cancel{background:#e6eef6;color:#0f172a;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+
+    @media (max-width:520px){
+      .actions{flex-direction:column-reverse}
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand">My Library</div>
+    <div class="nav-actions">
+      <a href="/" class="btn btn-add">← Back</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <div class="card">
+      <h1>Edit Book</h1>
+      <p class="lead">Update the details below and click <strong>Save</strong>.</p>
+
+      <form action="/updateData" method="post">
+        <input type="hidden" name="id" value="<%= maindata.id %>">
+
+        <div class="field">
+          <label for="title">Book Title</label>
+          <input id="title" name="title" type="text" required value="<%= maindata.title %>">
+        </div>
+
+        <div class="field">
+          <label for="author">Author Name</label>
+          <input id="author" name="author" type="text" required value="<%= maindata.author %>">
+        </div>
+
+        <div class="field">
+          <label for="category">Category</label>
+          <input id="category" name="category" type="text" value="<%= maindata.category %>">
+        </div>
+
+        <div class="actions">
+          <a href="/" class="btn btn-cancel" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">Cancel</a>
+          <button type="submit" class="btn-submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
