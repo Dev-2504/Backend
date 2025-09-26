@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Movie</title>
+
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0;font-family:Inter, 'Segoe UI', Roboto, Arial, sans-serif}
+        body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#eef2ff 0%, #fff 100%);padding:28px}
+        .card{width:100%;max-width:760px;background:linear-gradient(180deg,#ffffff,#fcfbff);border-radius:16px;padding:28px;box-shadow:0 20px 50px rgba(13,38,59,0.08);border:1px solid rgba(15,23,42,0.04)}
+
+        header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+        .brand{display:flex;align-items:center;gap:12px}
+        .logo{width:52px;height:52px;border-radius:12px;display:inline-grid;place-items:center;background:linear-gradient(135deg,#ff7a7a,#ffb27a)}
+        .logo svg{width:30px;height:30px}
+        h1{font-size:20px;color:#0f172a}
+        .subtitle{font-size:13px;color:#475569}
+
+        .cta-back{display:inline-block;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:700;box-shadow:0 8px 22px rgba(99,102,241,0.18);transition:transform .12s ease, box-shadow .12s ease;background: linear-gradient(90deg,#6d28d9,#3b82f6);color:white}
+        .cta-back:active{transform:translateY(1px)}
+
+        form{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+        label{font-size:13px;color:#334155;margin-bottom:6px;display:block}
+        input[type="text"],input[type="number"],.file-input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);font-size:14px}
+        input[type="file"]{display:none}
+
+        .file-wrap{display:flex;gap:12px;align-items:center}
+        .file-btn{padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,#6d28d9,#3b82f6);color:white;font-weight:700;border:none;cursor:pointer}
+        .file-name{font-size:13px;color:#475569}
+
+        .preview{display:flex;gap:12px;align-items:center;margin-top:6px}
+        .preview img{width:140px;height:auto;border-radius:10px;border:1px solid rgba(0,0,0,0.06);object-fit:cover}
+        .preview small{color:#64748b;font-size:13px}
+
+        .actions{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+        .note{font-size:13px;color:#64748b}
+        button[type="submit"]{padding:12px 18px;border-radius:12px;border:none;background:linear-gradient(90deg,#06b6d4,#3b82f6);color:white;font-weight:800;cursor:pointer;box-shadow:0 8px 22px rgba(59,130,246,0.14)}
+
+        @media (max-width:720px){
+            form{grid-template-columns:1fr}
+            .actions{flex-direction:column;gap:10px;align-items:stretch}
+            .file-wrap{flex-direction:column;align-items:flex-start}
+            .preview{flex-direction:column;align-items:flex-start}
+            .preview img{width:100%;max-width:220px}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <header>
+            <div class="brand">
+                <div class="logo" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="7" width="20" height="13" rx="2" fill="white"/>
+                        <path d="M2 7l4-4 4 4M10 7l4-4 4 4" stroke="#0f172a" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>Edit Movie</h1>
+                    <div class="subtitle">Update fields below (functionality unchanged)</div>
+                </div>
+            </div>
+
+            <a href="/" class="cta-back">&larr; Back to Home</a>
+        </header>
+
+        <!-- KEEP action, method, enctype, and input names exactly as provided -->
+        <form action="/updateData" method="post" enctype="multipart/form-data">
+            <!-- Hidden ID (unchanged) -->
+            <input type="text" name="id" value="<%= singleData.id %>" hidden>
+
+            <div>
+                <label for="title">Movie Title</label>
+                <input id="title" type="text" name="title" value="<%= singleData.title %>" placeholder="Enter Movie Title" required>
+            </div>
+
+            <div>
+                <label for="genre">Genre</label>
+                <input id="genre" type="text" name="genre" value="<%= singleData.genre %>" placeholder="Enter Genre" required>
+            </div>
+
+            <div>
+                <label for="rating">Rating (0 - 5)</label>
+                <input id="rating" type="number" name="rating" value="<%= singleData.rating %>" placeholder="Enter Rating (0-5)" min="0" max="5" step="0.1" required>
+            </div>
+
+            <div>
+                <label for="image">Poster Upload (optional)</label>
+                <div class="file-wrap">
+                    <input id="image" type="file" name="image" accept="image/*">
+                    <button type="button" class="file-btn" id="fileBtn">Choose file</button>
+                    <div class="file-name" id="fileName">No file chosen</div>
+                </div>
+
+                <!-- Existing poster preview (keeps server image path) -->
+                <div class="preview">
+                    <img id="previewImg" src="<%= singleData.image %>" alt="Existing Poster">
+                    <div>
+                        <small>Current poster preview. If you choose a new file it will replace on submit.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <div class="note">Leave poster empty to keep current image • Rating between 0 and 5</div>
+                <button type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // UI-only enhancements: custom file button + preview of chosen image (no server change)
+        const fileInput = document.getElementById('image');
+        const fileBtn = document.getElementById('fileBtn');
+        const fileName = document.getElementById('fileName');
+        const previewImg = document.getElementById('previewImg');
+
+        fileBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', () => {
+            const f = fileInput.files[0];
+            fileName.textContent = f ? f.name : 'No file chosen';
+
+            if (f) {
+                const reader = new FileReader();
+                reader.onload = e => previewImg.src = e.target.result;
+                reader.readAsDataURL(f);
+            }
+        });
+    </script>
+</body>
+</html>
